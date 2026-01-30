@@ -20,12 +20,22 @@ const painPoints = [
 const PainCard = ({ point }: { point: typeof painPoints[0] }) => {
   const Icon = point.icon
   return (
-    <div className="pain-card bg-card/80 backdrop-blur-md border border-border/50 p-3 lg:p-6 rounded-2xl shadow-sm h-full flex flex-col">
-      <div className="bg-primary/10 w-8 h-8 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center mb-2 lg:mb-4 text-primary shrink-0">
-        <Icon className="w-4 h-4 lg:w-6 lg:h-6" />
+    <div className="pain-card group relative p-[2px] rounded-2xl h-full overflow-hidden bg-gradient-to-br from-primary/80 via-primary/20 to-transparent">
+      <div className="bg-card/90 backdrop-blur-md p-3 lg:p-6 rounded-[calc(1rem-1px)] h-full flex flex-col relative z-10">
+
+        <div className="bg-primary/10 w-8 h-8 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center mb-2 lg:mb-4 text-primary shrink-0 ring-1 ring-primary/20">
+          <Icon className="w-4 h-4 lg:w-6 lg:h-6" />
+        </div>
+
+        <h3 className="text-xs lg:text-lg font-bold text-card-foreground mb-1 lg:mb-2 leading-tight">
+          {point.title}
+        </h3>
+
+        <p className="text-muted-foreground text-[10px] lg:text-sm leading-relaxed">
+          {point.desc}
+        </p>
+        <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
       </div>
-      <h3 className="text-xs lg:text-lg font-bold text-card-foreground mb-1 lg:mb-2 leading-tight">{point.title}</h3>
-      <p className="text-muted-foreground text-[10px] lg:text-sm leading-relaxed">{point.desc}</p>
     </div>
   )
 }
@@ -88,22 +98,35 @@ export default function PainSection() {
 
   return (
     <div ref={containerRef} className="bg-secondary relative overflow-hidden min-h-screen">
-      <section className="h-screen w-full flex flex-col">
+
+      {/* LAYER BACKGROUND BARU - Hanya dekorasi visual di belakang */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        {/* Grid pattern yang lebih tegas sesuai permintaan sebelumnya */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-40" />
+
+        {/* Cahaya ambient di pojok agar tidak flat */}
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-primary/10 rounded-full blur-[100px]" />
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-blue-400/10 rounded-full blur-[100px]" />
+      </div>
+
+      <section className="h-screen w-full flex flex-col relative z-10">
         <div className="max-w-6xl mx-auto w-full px-4 lg:px-6 relative flex flex-col h-full">
 
           {/* Header */}
           <div ref={headerRef} className="text-center z-50 relative pt-10 lg:pt-30">
-            <h2 className="text-xl md:text-5xl font-black text-foreground tracking-tight mb-2">
+            <h2 className="text-xl md:text-5xl font-black tracking-tight mb-2 bg-gradient-to-br from-[#01D2B3] via-[#01D2B3] to-[#65F5DF] bg-clip-text text-transparent">
               Apakah Tim Support Anda Kewalahan?
             </h2>
-            <p className="text-muted-foreground text-[10px] md:text-lg max-w-xl mx-auto italic px-4">
-              "Masalah klasik yang membunuh pertumbuhan bisnis"
+            <p className="text-muted-foreground text-[10px] md:text-lg max-w-xl mx-auto px-4 relative">
+              <span className="relative z-10">"Masalah klasik yang membunuh pertumbuhan bisnis"</span>
+              {/* Gradient glow tipis di belakang teks p agar lebih estetik */}
+              <span className="absolute inset-0 bg-primary/5 blur-2xl -z-10 rounded-full" />
             </p>
           </div>
 
           <div className="relative flex-1 flex flex-col justify-end items-center pb-8 lg:pb-12">
 
-            {/* Desktop View Cards (Hanya dirender jika LG) */}
+            {/* Desktop View Cards */}
             <div className="absolute inset-0 z-40 hidden lg:block pointer-events-none">
               <div className="absolute left-[10%] top-[10%] w-[240px] pointer-events-auto"><PainCard point={painPoints[0]} /></div>
               <div className="absolute right-[5%] top-[10%] w-[240px] pointer-events-auto"><PainCard point={painPoints[1]} /></div>
@@ -122,7 +145,7 @@ export default function PainSection() {
               />
             </div>
 
-            {/* Mobile View Cards (Hanya dirender jika < LG) */}
+            {/* Mobile View Cards */}
             <div className="lg:hidden w-full z-40 relative px-2">
               <div className="grid grid-cols-2 gap-2 w-full">
                 {painPoints.map((point, i) => (

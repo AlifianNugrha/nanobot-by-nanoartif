@@ -38,16 +38,14 @@ export default function Hero() {
         repeatDelay: 1
       });
 
-      // Konfigurasi awal: mulai dari bawah, transparan, dan mengecil
       tl.set(".chat-bubble", { opacity: 0, y: 20, scale: 0.8 });
 
-      // Fungsi pembantu untuk membuat animasi bounce yang konsisten
       const bounceIn = {
         opacity: 1,
         y: 0,
         scale: 1,
         duration: 0.6,
-        ease: "back.out(2)" // Angka 2 memberikan pantulan yang lebih terasa
+        ease: "back.out(2)"
       };
 
       tl.to(".cb-1", bounceIn, "+=0.5")
@@ -55,7 +53,7 @@ export default function Hero() {
         .to(".cb-3", bounceIn, "+=1.2")
         .to(".cb-4", bounceIn, "+=1.0")
         .to(".cb-5", bounceIn, "+=1.2")
-        .to({}, { duration: 3 }) // Jeda sebelum menghilang
+        .to({}, { duration: 3 })
         .to(".chat-bubble", {
           opacity: 0,
           y: -20,
@@ -71,11 +69,22 @@ export default function Hero() {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative overflow-hidden pt-32 pb-40 px-4 sm:px-6 lg:px-8 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#01D2B3]/5 via-background to-background min-h-screen flex items-center">
+    <section ref={containerRef} className="relative overflow-hidden pt-32 pb-40 px-4 sm:px-6 lg:px-8 bg-[#f8fafc] min-h-screen flex items-center">
 
-      <div className="absolute top-0 right-0 -z-10 w-[400px] h-[400px] bg-[#01D2B3]/10 blur-[100px] rounded-full opacity-50" />
+      {/* --- BACKGROUND LAYER (GRADIENT & PATTERN) --- */}
+      <div className="absolute inset-0 z-0">
+        {/* 1. Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-50" />
 
-      <div className="max-w-6xl mx-auto w-full">
+        {/* 2. Gradient Orbs - Menggunakan warna Nexora (#01D2B3) */}
+        <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-[#01D2B3]/20 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-blue-400/10 rounded-full blur-[120px]" />
+
+        {/* 3. Mesh Highlight */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(1,210,179,0.05)_0%,transparent_70%)]" />
+      </div>
+
+      <div className="max-w-6xl mx-auto w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* Left Content */}
@@ -102,7 +111,7 @@ export default function Hero() {
               <Button
                 size="lg"
                 variant="ghost"
-                className="rounded-full px-10 h-14 text-base font-semibold border-2 border-transparent hover:border-[#01D2B3]/20 hover:bg-[#01D2B3]/5 transition-all duration-300"
+                className="rounded-full px-10 h-14 text-base font-semibold border-2 border-[#01D2B3]/10 hover:border-[#01D2B3]/20 hover:bg-[#01D2B3]/5 transition-all duration-300"
               >
                 Lihat Demo
               </Button>
